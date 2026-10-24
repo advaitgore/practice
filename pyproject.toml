@@ -1,12 +1,16 @@
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
 [project]
 name = "practice-document-agent"
-version = "0.1.0"
+version = "0.2.0"
+description = "Email-driven public document retrieval agent (take-home draft)"
 requires-python = ">=3.11"
 dependencies = ["playwright>=1.48,<2"]
+
 [project.scripts]
-senpilot-agent = "document_agent:main"
+senpilot-agent = "document_agent.cli:main"
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/document_agent"]

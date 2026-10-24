@@ -1,7 +1,10 @@
 {
-  "input": "REPLACE_WITH_MATTER_INPUT",
-  "search": "REPLACE_WITH_UNIQUE_DIRECT_SEARCH_BUTTON",
-  "header": "REPLACE_WITH_MATTER_HEADER",
-  "rows": "REPLACE_WITH_DOCUMENT_ROWS",
-  "filename": "REPLACE_WITH_FINAL_FILENAME_CONFIRMATION_BUTTON"
+  "_comment": "Reference only; the code does not read this file. Locators recorded with playwright codegen on 2026-10-24.",
+  "matter_input": "#b0p0o254i0i0r1 > .inner_border > .text",
+  "direct_search_button": "get_by_role('button', name='Search').nth(4)",
+  "category_tab": "get_by_role('button', name='Other Documents -')",
+  "download_button": "get_by_role('button', name='GO GET IT')",
+  "file_button_in_dialog": "get_by_role('button', name='<document>.pdf')",
+  "close_dialog": "get_by_role('button', name='Close')",
+  "dialog_curtain": ".v-window-modalitycurtain"
 }
