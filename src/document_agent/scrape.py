@@ -9,6 +9,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 
+from playwright.sync_api import Error as PWError
 from playwright.sync_api import TimeoutError as PWTimeout
 from playwright.sync_api import sync_playwright
 
@@ -55,12 +56,33 @@ def _find_input(page):
     raise AgentError("The site's matter search box was not found; the page layout may have changed.")
 
 
+def _enter_matter(page, field, matter):
+    """Type the matter number into a WebDirect field.
+
+    The box is a <div tabindex=0> until a click round-trips to the server and it
+    becomes editable, so a fill straight after the click can fail. Retry fill
+    until it works, then fall back to real keystrokes.
+    """
+    field.click()
+    for _ in range(12):
+        try:
+            field.fill(matter + "\n", timeout=2000)  # recorded session typed the number plus Enter
+            return "fill"
+        except PWError:
+            page.wait_for_timeout(500)
+    field.click()
+    page.keyboard.press("Control+A")
+    page.keyboard.type(matter, delay=60)
+    page.keyboard.press("Enter")
+    return "keyboard"
+
+
 def open_matter(page, matter):
     for idx in SEARCH_INDEXES:
         page.goto(SOURCE_URL, wait_until="domcontentloaded")
         field = _find_input(page)
-        field.click()
-        field.fill(matter + "\n")  # recorded session typed the number plus Enter
+        _enter_matter(page, field, matter)
+        page.wait_for_timeout(500)
         buttons = page.get_by_role("button", name="Search")
         if buttons.count() <= idx:
             continue
