@@ -1,0 +1,8 @@
+.venv/
+.env
+__pycache__/
+artifacts/
+*.sqlite3
+selectors.local.json
+credentials.json
+token.json
